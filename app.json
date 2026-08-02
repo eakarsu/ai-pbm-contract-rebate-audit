@@ -1,0 +1,1281 @@
+{
+  "id": "ai-pbm-contract-rebate-audit",
+  "title": "PBM Value Assurance",
+  "tagline": "Contract guarantees, rebate pass-through, spread pricing, and specialty-drug audit recovery",
+  "industry": "Pharmacy Benefit Management Audit",
+  "port": 4521,
+  "accent": "#7c3aed",
+  "valueLabel": "Spend audited",
+  "value": "$486M",
+  "workflows": [
+    {
+      "id": "rebate-guarantee",
+      "title": "Rebate Guarantee Reconciliation",
+      "description": "Reconcile guaranteed and received rebates by channel, brand, formulary tier, and utilization period.",
+      "fields": [
+        {
+          "key": "contract",
+          "label": "PBM Contract",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "period",
+          "label": "Rebate Period",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "guaranteedRebate",
+          "label": "Guaranteed Rebate",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "receivedRebate",
+          "label": "Received Rebate",
+          "type": "currency",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "contract": "H1234",
+            "period": "Rebate Period STD-2026-104",
+            "guaranteedRebate": 285000,
+            "receivedRebate": 285000
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "contract": "H5678",
+            "period": "Rebate Period RISK-2026-227",
+            "guaranteedRebate": 875000,
+            "receivedRebate": 875000
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "contract": "H9012",
+            "period": "Rebate Period EXC-2026-319",
+            "guaranteedRebate": 142500,
+            "receivedRebate": 142500
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "specialty-markup",
+      "title": "Specialty Drug Markup Audit",
+      "description": "Compare plan-paid specialty generic prices with acquisition benchmarks and contract terms.",
+      "fields": [
+        {
+          "key": "ndc",
+          "label": "NDC-11",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "drug",
+          "label": "Drug",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "planPaid",
+          "label": "Plan Paid",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "acquisitionBenchmark",
+          "label": "Acquisition Benchmark",
+          "type": "currency",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "ndc": "00069-1000-01",
+            "drug": "Drug STD-2026-104",
+            "planPaid": 285000,
+            "acquisitionBenchmark": 285000
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "ndc": "00078-0526-15",
+            "drug": "Drug RISK-2026-227",
+            "planPaid": 875000,
+            "acquisitionBenchmark": 875000
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "ndc": "50458-0580-30",
+            "drug": "Drug EXC-2026-319",
+            "planPaid": 142500,
+            "acquisitionBenchmark": 142500
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "spread-pricing",
+      "title": "Spread Pricing Detection",
+      "description": "Measure pharmacy reimbursement versus plan charge at claim and network level.",
+      "fields": [
+        {
+          "key": "claimId",
+          "label": "Claim ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "pharmacyPaid",
+          "label": "Pharmacy Reimbursement",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "planCharged",
+          "label": "Plan Charge",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "contractTreatment",
+          "label": "Contract Treatment",
+          "type": "textarea",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "claimId": "CLM-2026-001842",
+            "pharmacyPaid": 285000,
+            "planCharged": 285000,
+            "contractTreatment": "Complete: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "claimId": "CLM-2026-004917",
+            "pharmacyPaid": 875000,
+            "planCharged": 875000,
+            "contractTreatment": "Critical exception: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "claimId": "CLM-2026-007305",
+            "pharmacyPaid": 142500,
+            "planCharged": 142500,
+            "contractTreatment": "Reviewer follow-up: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "guarantee",
+      "title": "Performance Guarantee Testing",
+      "description": "Test discount, dispensing fee, generic effective rate, service, and clinical guarantees.",
+      "fields": [
+        {
+          "key": "guarantee",
+          "label": "Guarantee",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "measurementPeriod",
+          "label": "Measurement Period",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "target",
+          "label": "Contract Target",
+          "type": "number",
+          "required": true
+        },
+        {
+          "key": "actual",
+          "label": "Actual Performance",
+          "type": "number",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "guarantee": "Guarantee STD-2026-104",
+            "measurementPeriod": "Measurement Period STD-2026-104",
+            "target": 125,
+            "actual": 125
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "guarantee": "Guarantee RISK-2026-227",
+            "measurementPeriod": "Measurement Period RISK-2026-227",
+            "target": 975,
+            "actual": 975
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "guarantee": "Guarantee EXC-2026-319",
+            "measurementPeriod": "Measurement Period EXC-2026-319",
+            "target": 41,
+            "actual": 41
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "formulary",
+      "title": "Formulary & Exclusion Audit",
+      "description": "Review formulary placement, exclusions, biosimilar strategy, utilization management, and member impact.",
+      "fields": [
+        {
+          "key": "drug",
+          "label": "Drug",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "formularyTier",
+          "label": "Formulary Tier",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "exclusionReason",
+          "label": "Exclusion Reason",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "memberImpact",
+          "label": "Member Impact",
+          "type": "textarea",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "drug": "Drug STD-2026-104",
+            "formularyTier": "Formulary Tier STD-2026-104",
+            "exclusionReason": "Exclusion Reason STD-2026-104",
+            "memberImpact": "Complete: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "drug": "Drug RISK-2026-227",
+            "formularyTier": "Formulary Tier RISK-2026-227",
+            "exclusionReason": "Exclusion Reason RISK-2026-227",
+            "memberImpact": "Critical exception: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "drug": "Drug EXC-2026-319",
+            "formularyTier": "Formulary Tier EXC-2026-319",
+            "exclusionReason": "Exclusion Reason EXC-2026-319",
+            "memberImpact": "Reviewer follow-up: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "invoice",
+      "title": "PBM Invoice Reconciliation",
+      "description": "Tie claim invoices, administrative fees, credits, reversals, and eligibility to source data.",
+      "fields": [
+        {
+          "key": "invoiceId",
+          "label": "Invoice ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "invoiceAmount",
+          "label": "Invoice Amount",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "claimTotal",
+          "label": "Claim Detail Total",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "varianceNotes",
+          "label": "Variance Notes",
+          "type": "textarea",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "invoiceId": "INV-2026-00841",
+            "invoiceAmount": 285000,
+            "claimTotal": 285000,
+            "varianceNotes": "Complete: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "invoiceId": "INV-2026-01473",
+            "invoiceAmount": 875000,
+            "claimTotal": 875000,
+            "varianceNotes": "Critical exception: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "invoiceId": "INV-2026-02219",
+            "invoiceAmount": 142500,
+            "claimTotal": 142500,
+            "varianceNotes": "Reviewer follow-up: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "contract",
+      "title": "Contract Term Extraction",
+      "description": "Extract economic guarantees, audit rights, definitions, exclusions, data rights, and dispute deadlines.",
+      "fields": [
+        {
+          "key": "contractName",
+          "label": "Contract Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "effectiveDate",
+          "label": "Effective Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "auditWindowDays",
+          "label": "Audit Window Days",
+          "type": "number",
+          "required": true
+        },
+        {
+          "key": "keyTerms",
+          "label": "Key Economic Terms",
+          "type": "textarea",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "contractName": "H1234",
+            "effectiveDate": "2026-09-08",
+            "auditWindowDays": 125,
+            "keyTerms": "Complete: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "contractName": "H5678",
+            "effectiveDate": "2026-08-19",
+            "auditWindowDays": 975,
+            "keyTerms": "Critical exception: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "contractName": "H9012",
+            "effectiveDate": "2026-08-10",
+            "auditWindowDays": 41,
+            "keyTerms": "Reviewer follow-up: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    },
+    {
+      "id": "recovery",
+      "title": "Recovery & Dispute Package",
+      "description": "Assemble claim evidence, contract citation, calculation, notice, and recovery tracking.",
+      "fields": [
+        {
+          "key": "findingId",
+          "label": "Finding ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "recoveryAmount",
+          "label": "Recovery Amount",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "noticeDue",
+          "label": "Notice Due",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "disputeNarrative",
+          "label": "Dispute Narrative",
+          "type": "textarea",
+          "required": false
+        }
+      ],
+      "states": [
+        "intake",
+        "analyzing",
+        "review",
+        "approved",
+        "closed"
+      ],
+      "examples": [
+        {
+          "id": "standard",
+          "label": "Fill Standard Case",
+          "values": {
+            "findingId": "Finding ID STD-2026-104",
+            "recoveryAmount": 285000,
+            "noticeDue": "2026-09-08",
+            "disputeNarrative": "Complete: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "high-risk",
+          "label": "Fill High-Risk Case",
+          "values": {
+            "findingId": "Finding ID RISK-2026-227",
+            "recoveryAmount": 875000,
+            "noticeDue": "2026-08-19",
+            "disputeNarrative": "Critical exception: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        },
+        {
+          "id": "exception",
+          "label": "Fill Exception Case",
+          "values": {
+            "findingId": "Finding ID EXC-2026-319",
+            "recoveryAmount": 142500,
+            "noticeDue": "2026-08-10",
+            "disputeNarrative": "Reviewer follow-up: source evidence, financial impact, control context, and documented reviewer rationale are available for analysis."
+          }
+        }
+      ],
+      "aiActions": [
+        {
+          "id": "assess",
+          "label": "Assess Risk & Value"
+        },
+        {
+          "id": "evidence",
+          "label": "Build Evidence Checklist"
+        },
+        {
+          "id": "plan",
+          "label": "Recommend Action Plan"
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "id": "rebate-guarantee",
+      "title": "Rebate Guarantee Reconciliation Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for rebate guarantee reconciliation.",
+      "table": "op_rebate_guarantee",
+      "columns": [
+        {
+          "key": "contract",
+          "label": "PBM Contract",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_contract"
+        },
+        {
+          "key": "period",
+          "label": "Rebate Period",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_period"
+        },
+        {
+          "key": "guaranteedRebate",
+          "label": "Guaranteed Rebate",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_guaranteedRebate"
+        },
+        {
+          "key": "receivedRebate",
+          "label": "Received Rebate",
+          "type": "currency",
+          "required": false,
+          "dbKey": "data_receivedRebate"
+        }
+      ]
+    },
+    {
+      "id": "specialty-markup",
+      "title": "Specialty Drug Markup Audit Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for specialty drug markup audit.",
+      "table": "op_specialty_markup",
+      "columns": [
+        {
+          "key": "ndc",
+          "label": "NDC-11",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_ndc"
+        },
+        {
+          "key": "drug",
+          "label": "Drug",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_drug"
+        },
+        {
+          "key": "planPaid",
+          "label": "Plan Paid",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_planPaid"
+        },
+        {
+          "key": "acquisitionBenchmark",
+          "label": "Acquisition Benchmark",
+          "type": "currency",
+          "required": false,
+          "dbKey": "data_acquisitionBenchmark"
+        }
+      ]
+    },
+    {
+      "id": "spread-pricing",
+      "title": "Spread Pricing Detection Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for spread pricing detection.",
+      "table": "op_spread_pricing",
+      "columns": [
+        {
+          "key": "claimId",
+          "label": "Claim ID",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_claimId"
+        },
+        {
+          "key": "pharmacyPaid",
+          "label": "Pharmacy Reimbursement",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_pharmacyPaid"
+        },
+        {
+          "key": "planCharged",
+          "label": "Plan Charge",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_planCharged"
+        },
+        {
+          "key": "contractTreatment",
+          "label": "Contract Treatment",
+          "type": "textarea",
+          "required": false,
+          "dbKey": "data_contractTreatment"
+        }
+      ]
+    },
+    {
+      "id": "guarantee",
+      "title": "Performance Guarantee Testing Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for performance guarantee testing.",
+      "table": "op_guarantee",
+      "columns": [
+        {
+          "key": "guarantee",
+          "label": "Guarantee",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_guarantee"
+        },
+        {
+          "key": "measurementPeriod",
+          "label": "Measurement Period",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_measurementPeriod"
+        },
+        {
+          "key": "target",
+          "label": "Contract Target",
+          "type": "number",
+          "required": true,
+          "dbKey": "data_target"
+        },
+        {
+          "key": "actual",
+          "label": "Actual Performance",
+          "type": "number",
+          "required": false,
+          "dbKey": "data_actual"
+        }
+      ]
+    },
+    {
+      "id": "formulary",
+      "title": "Formulary & Exclusion Audit Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for formulary & exclusion audit.",
+      "table": "op_formulary",
+      "columns": [
+        {
+          "key": "drug",
+          "label": "Drug",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_drug"
+        },
+        {
+          "key": "formularyTier",
+          "label": "Formulary Tier",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_formularyTier"
+        },
+        {
+          "key": "exclusionReason",
+          "label": "Exclusion Reason",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_exclusionReason"
+        },
+        {
+          "key": "memberImpact",
+          "label": "Member Impact",
+          "type": "textarea",
+          "required": false,
+          "dbKey": "data_memberImpact"
+        }
+      ]
+    },
+    {
+      "id": "invoice",
+      "title": "PBM Invoice Reconciliation Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for pbm invoice reconciliation.",
+      "table": "op_invoice",
+      "columns": [
+        {
+          "key": "invoiceId",
+          "label": "Invoice ID",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_invoiceId"
+        },
+        {
+          "key": "invoiceAmount",
+          "label": "Invoice Amount",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_invoiceAmount"
+        },
+        {
+          "key": "claimTotal",
+          "label": "Claim Detail Total",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_claimTotal"
+        },
+        {
+          "key": "varianceNotes",
+          "label": "Variance Notes",
+          "type": "textarea",
+          "required": false,
+          "dbKey": "data_varianceNotes"
+        }
+      ]
+    },
+    {
+      "id": "contract",
+      "title": "Contract Term Extraction Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for contract term extraction.",
+      "table": "op_contract",
+      "columns": [
+        {
+          "key": "contractName",
+          "label": "Contract Name",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_contractName"
+        },
+        {
+          "key": "effectiveDate",
+          "label": "Effective Date",
+          "type": "date",
+          "required": true,
+          "dbKey": "data_effectiveDate"
+        },
+        {
+          "key": "auditWindowDays",
+          "label": "Audit Window Days",
+          "type": "number",
+          "required": true,
+          "dbKey": "data_auditWindowDays"
+        },
+        {
+          "key": "keyTerms",
+          "label": "Key Economic Terms",
+          "type": "textarea",
+          "required": false,
+          "dbKey": "data_keyTerms"
+        }
+      ]
+    },
+    {
+      "id": "recovery",
+      "title": "Recovery & Dispute Package Register",
+      "description": "Operational records, ownership, status, financial value, and evidence for recovery & dispute package.",
+      "table": "op_recovery",
+      "columns": [
+        {
+          "key": "findingId",
+          "label": "Finding ID",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_findingId"
+        },
+        {
+          "key": "recoveryAmount",
+          "label": "Recovery Amount",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_recoveryAmount"
+        },
+        {
+          "key": "noticeDue",
+          "label": "Notice Due",
+          "type": "date",
+          "required": true,
+          "dbKey": "data_noticeDue"
+        },
+        {
+          "key": "disputeNarrative",
+          "label": "Dispute Narrative",
+          "type": "textarea",
+          "required": false,
+          "dbKey": "data_disputeNarrative"
+        }
+      ]
+    },
+    {
+      "id": "pbm-contracts",
+      "title": "PBM Contract Registry",
+      "description": "Contracts, effective periods, guarantee sets, audit windows, and ownership.",
+      "table": "op_pbm_contracts",
+      "columns": [
+        {
+          "key": "contract",
+          "label": "Contract",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_contract"
+        },
+        {
+          "key": "pbm",
+          "label": "PBM",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_pbm"
+        },
+        {
+          "key": "effectiveDate",
+          "label": "Effective Date",
+          "type": "date",
+          "required": true,
+          "dbKey": "data_effectiveDate"
+        },
+        {
+          "key": "auditWindow",
+          "label": "Audit Window Days",
+          "type": "number",
+          "required": true,
+          "dbKey": "data_auditWindow"
+        }
+      ]
+    },
+    {
+      "id": "drug-master",
+      "title": "Drug & NDC Master",
+      "description": "NDCs, drug names, brands, generics, specialty status, and benchmarks.",
+      "table": "op_drug_master",
+      "columns": [
+        {
+          "key": "ndc",
+          "label": "NDC-11",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_ndc"
+        },
+        {
+          "key": "drug",
+          "label": "Drug",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_drug"
+        },
+        {
+          "key": "drugType",
+          "label": "Drug Type",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_drugType"
+        },
+        {
+          "key": "specialty",
+          "label": "Specialty Status",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_specialty"
+        }
+      ]
+    },
+    {
+      "id": "pharmacy-network",
+      "title": "Pharmacy Network Master",
+      "description": "Pharmacies, ownership, network, channel, reimbursement, and affiliation.",
+      "table": "op_pharmacy_network",
+      "columns": [
+        {
+          "key": "pharmacy",
+          "label": "Pharmacy",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_pharmacy"
+        },
+        {
+          "key": "npi",
+          "label": "NPI",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_npi"
+        },
+        {
+          "key": "channel",
+          "label": "Channel",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_channel"
+        },
+        {
+          "key": "affiliation",
+          "label": "PBM Affiliation",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_affiliation"
+        }
+      ]
+    },
+    {
+      "id": "guarantee-library",
+      "title": "Contract Guarantee Library",
+      "description": "Guarantee definitions, calculations, exclusions, targets, and penalties.",
+      "table": "op_guarantee_library",
+      "columns": [
+        {
+          "key": "guarantee",
+          "label": "Guarantee",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_guarantee"
+        },
+        {
+          "key": "measure",
+          "label": "Measure",
+          "type": "text",
+          "required": true,
+          "dbKey": "data_measure"
+        },
+        {
+          "key": "target",
+          "label": "Target",
+          "type": "number",
+          "required": true,
+          "dbKey": "data_target"
+        },
+        {
+          "key": "penalty",
+          "label": "Penalty",
+          "type": "currency",
+          "required": true,
+          "dbKey": "data_penalty"
+        }
+      ]
+    }
+  ],
+  "domainProduct": {
+    "home": "PBM Economic Control Center",
+    "context": "An employer and health-plan audit system for rebate guarantees, specialty markups, spread pricing, invoices, performance guarantees, and recoveries.",
+    "features": [
+      {
+        "id": "rebate-settlement",
+        "title": "Rebate Settlement Reconciliation",
+        "description": "Compare contract guarantees, utilization, remittances, exclusions, and true-up obligations.",
+        "view": "reconciliation",
+        "modules": [
+          "rebate-guarantee",
+          "pbm-contracts"
+        ],
+        "actions": [
+          {
+            "id": "approve-rebate",
+            "label": "Approve Rebate Settlement",
+            "nextStatus": "Approved",
+            "auditDetail": "Approved reconciled rebate settlement and guarantee performance."
+          },
+          {
+            "id": "claim-shortfall",
+            "label": "Claim Rebate Shortfall",
+            "nextStatus": "Investigating",
+            "auditDetail": "Opened recovery for rebate guarantee shortfall."
+          }
+        ]
+      },
+      {
+        "id": "specialty-economics",
+        "title": "Specialty Generic Economics",
+        "description": "Detect acquisition-cost markups, affiliated-pharmacy pricing, channel steering, and contract variance.",
+        "view": "control",
+        "modules": [
+          "specialty-markup",
+          "drug-master"
+        ],
+        "actions": [
+          {
+            "id": "confirm-markup",
+            "label": "Confirm Excess Markup",
+            "nextStatus": "Review",
+            "auditDetail": "Confirmed specialty pricing variance against benchmark and contract."
+          },
+          {
+            "id": "clear-pricing",
+            "label": "Clear Specialty Pricing",
+            "nextStatus": "Approved",
+            "auditDetail": "Cleared specialty claim pricing after benchmark review."
+          }
+        ]
+      },
+      {
+        "id": "spread-analysis",
+        "title": "Claim-Level Spread Analysis",
+        "description": "Reconcile pharmacy reimbursement, plan charge, dispensing fee, ingredient cost, and permitted spread.",
+        "view": "reconciliation",
+        "modules": [
+          "spread-pricing",
+          "pharmacy-network"
+        ],
+        "actions": [
+          {
+            "id": "recover-spread",
+            "label": "Open Spread Recovery",
+            "nextStatus": "Investigating",
+            "auditDetail": "Opened claim-level spread-pricing recovery."
+          },
+          {
+            "id": "approve-spread",
+            "label": "Approve Contractual Spread",
+            "nextStatus": "Approved",
+            "auditDetail": "Approved spread permitted by contract terms."
+          }
+        ]
+      },
+      {
+        "id": "guarantee-testing",
+        "title": "Performance Guarantee Testing",
+        "description": "Test discounts, fees, generic rates, service levels, and penalty calculations by measurement period.",
+        "view": "control",
+        "modules": [
+          "guarantee",
+          "guarantee-library"
+        ],
+        "actions": [
+          {
+            "id": "assess-penalty",
+            "label": "Assess Guarantee Penalty",
+            "nextStatus": "Review",
+            "auditDetail": "Assessed performance-guarantee penalty."
+          },
+          {
+            "id": "accept-performance",
+            "label": "Accept Guarantee Performance",
+            "nextStatus": "Approved",
+            "auditDetail": "Accepted tested guarantee performance."
+          }
+        ]
+      },
+      {
+        "id": "audit-recovery",
+        "title": "PBM Audit Recovery",
+        "description": "Build contract-cited findings, notices, disputes, recoveries, offsets, and settlement approvals.",
+        "view": "board",
+        "modules": [
+          "recovery",
+          "contract"
+        ],
+        "actions": [
+          {
+            "id": "issue-finding",
+            "label": "Issue Audit Finding",
+            "nextStatus": "Review",
+            "auditDetail": "Issued supported PBM audit finding."
+          },
+          {
+            "id": "settle-recovery",
+            "label": "Approve Recovery Settlement",
+            "nextStatus": "Approved",
+            "auditDetail": "Approved PBM recovery settlement and payment evidence."
+          }
+        ]
+      }
+    ]
+  },
+  "integrations": [
+    {
+      "id": "integration-1",
+      "name": "PBM claim feed",
+      "category": "Domain data source",
+      "mode": "Read-only demo connector"
+    },
+    {
+      "id": "integration-2",
+      "name": "Rebate remittance",
+      "category": "Domain data source",
+      "mode": "Read-only demo connector"
+    },
+    {
+      "id": "integration-3",
+      "name": "Eligibility warehouse",
+      "category": "Domain data source",
+      "mode": "Read-only demo connector"
+    },
+    {
+      "id": "integration-4",
+      "name": "Drug benchmark feed",
+      "category": "Domain data source",
+      "mode": "Read-only demo connector"
+    },
+    {
+      "id": "integration-5",
+      "name": "Contract repository",
+      "category": "Domain data source",
+      "mode": "Read-only demo connector"
+    }
+  ],
+  "featureCount": 40,
+  "seededRecords": 300,
+  "demoUsers": 3,
+  "apiPort": 5521,
+  "dbName": "profit_ai_pbm_contract_rebate_audit"
+}
