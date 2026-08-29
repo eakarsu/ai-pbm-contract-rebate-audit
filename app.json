@@ -7,6 +7,15 @@
   "accent": "#7c3aed",
   "valueLabel": "Spend audited",
   "value": "$486M",
+  "commercialExtension": {
+    "title": "PBM Recovery & Guarantee Lab",
+    "summary": "Model claim-level savings and stage the data contracts required for rebate, spread, specialty, and performance-guarantee audits.",
+    "baselineLabel": "Annual pharmacy spend", "volumeLabel": "Annual paid claims", "unitValueLabel": "Average plan-paid amount", "opportunityRateLabel": "Potential leakage rate", "captureRateLabel": "Expected recovery rate",
+    "defaults": { "volume": 1200000, "unitValue": 95, "opportunityRate": 3.5, "captureRate": 70 },
+    "pricing": "Annual platform fee based on covered lives plus a success fee on independently validated recoveries.",
+    "milestones": ["Load one PBM contract and guarantee schedule", "Reconcile paid claims, pharmacy reimbursement, and rebates", "Approve exception methodology with benefits counsel", "Issue evidence-backed true-up and dispute packages"],
+    "connectors": [{"name":"PBM claim feed","status":"Pilot","purpose":"Paid, reversed, and adjusted claim economics","evidence":"Claim IDs, NDC, channel, pharmacy paid, and plan charged"},{"name":"Rebate settlement feed","status":"Planned","purpose":"Guaranteed versus received rebate reconciliation","evidence":"Product, utilization period, accrual, payment, and adjustment lineage"},{"name":"Contract repository","status":"Planned","purpose":"Effective-dated economic terms and audit rights","evidence":"Versioned clauses with reviewer-approved interpretations"}]
+  },
   "workflows": [
     {
       "id": "rebate-guarantee",
